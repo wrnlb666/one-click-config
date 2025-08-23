@@ -31,7 +31,7 @@ class Link:
             print(f"[ERRO] {origin} does not exist", file=sys.stderr)
             sys.exit(1)
         print(f"[INFO] Creating symbolic link for '{origin.as_posix()}' at '{target.as_posix()}'", file=sys.stderr)
-        # target.symlink_to(origin, origin.is_dir())
+        target.symlink_to(origin, origin.is_dir())
 
 
 class Module:
