@@ -30,7 +30,8 @@ class Link:
         if not origin.exists():
             print(f"[ERRO] {origin} does not exist", file=sys.stderr)
             sys.exit(1)
-        target.symlink_to(origin, origin.is_dir())
+        print(f"[INFO] Creating symbolic link for '{origin.as_posix()}' at '{target.as_posix()}'", file=sys.stderr)
+        # target.symlink_to(origin, origin.is_dir())
 
 
 class Module:
@@ -68,11 +69,12 @@ class Module:
             link.link()
 
     def link(self, origin: Union[str, Path], target: Union[str, Path]) -> Self:
+        origin = self.cwd / self.install_name / origin
         tmp = Link(origin, target)
         self.links.append(tmp)
         return self
 
-    def run(self) -> None:
+    def install(self) -> None:
         git_clone(self.url, self.cwd, self.install_name)
         self._link()
         if self.func:

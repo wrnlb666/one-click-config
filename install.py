@@ -30,8 +30,8 @@ def main():
     if not all:
         modules = [m for m in modules if m in candidates]
     for m in modules:
-        print(m.name)
-        m.run()
+        print(f"[INFO] Installing config for '{m.name}'", file=sys.stderr)
+        m.install()
 
 
 if __name__ == "__main__":
