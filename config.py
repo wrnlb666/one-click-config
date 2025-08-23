@@ -2,7 +2,7 @@ from util import Module, HOME, CONFIG
 from pathlib import Path
 
 # mkdir config directory
-config_path: Path = HOME / "wrnlb" / "config"
+config_path: Path = HOME / "wrnlb" / "configg"
 if not config_path.exists():
     config_path.mkdir()
 pwd = config_path.resolve().as_posix()
@@ -15,7 +15,7 @@ nvim = Module(
     pwd,
     "nvim.conf",
 ).link(
-    config_path / "nvim.conf",
+    ".",
     CONFIG / "nvim",
 )
 
@@ -27,7 +27,7 @@ tmux = Module(
     pwd,
     "tmux",
 ).link(
-    config_path / "tmux" / ".tmux.conf",
+    ".tmux.conf",
     CONFIG / "tmux" / "tmux.conf",
 )
 
@@ -39,7 +39,7 @@ tmuxconf = Module(
     pwd,
     "tmux.conf",
 ).link(
-    config_path / "tmux.conf" / ".tmux.conf.local",
+    ".tmux.conf.local",
     CONFIG / "tmux" / "tmux.conf.local",
 )
 
@@ -61,7 +61,7 @@ zsh = Module(
     pwd,
     "zsh.conf",
 ).link(
-    config_path / "zsh.conf" / ".zshrc.local",
+    ".zshrc.local",
     HOME / ".zshrc.local",
 )
 
@@ -73,7 +73,7 @@ git = Module(
     pwd,
     "gitconfig",
 ).link(
-    config_path / "gitconfig" / ".gitconfig",
+    ".gitconfig",
     HOME / ".gitconfig",
 )
 
@@ -85,7 +85,7 @@ gdb = Module(
     pwd,
     "gdbinit",
 ).link(
-    config_path / "gdbinit" / ".gdbinit",
+    ".gdbinit",
     HOME / ".gdbinit",
 )
 
@@ -97,6 +97,6 @@ starship = Module(
     pwd,
     "starship",
 ).link(
-    config_path / "starship" / "starship.toml",
+     "starship.toml",
     CONFIG / "starship.toml",
 )
