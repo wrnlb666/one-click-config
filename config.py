@@ -2,7 +2,7 @@ from util import Module, HOME, CONFIG
 from pathlib import Path
 
 # mkdir config directory
-config_path: Path = HOME / "wrnlb" / "configg"
+config_path: Path = HOME / "wrnlb" / "config"
 if not config_path.exists():
     config_path.mkdir()
 pwd = config_path.resolve().as_posix()
@@ -28,7 +28,7 @@ tmux = Module(
     "tmux",
 ).link(
     ".tmux.conf",
-    CONFIG / "tmux" / "tmux.conf",
+    HOME / ".tmux.conf",
 )
 
 
@@ -40,7 +40,7 @@ tmuxconf = Module(
     "tmux.conf",
 ).link(
     ".tmux.conf.local",
-    CONFIG / "tmux" / "tmux.conf.local",
+    HOME / ".tmux.conf.local",
 )
 
 
