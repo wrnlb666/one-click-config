@@ -28,7 +28,7 @@ def main():
         else:
             candidates.add(arg)
     if not all:
-        modules = [m for m in modules if m in candidates]
+        modules = [m for m in modules if m.name in candidates]
     for m in modules:
         print(f"[INFO] Installing config for '{m.name}'", file=sys.stderr)
         m.install()
