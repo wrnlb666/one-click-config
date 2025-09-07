@@ -3,9 +3,9 @@
 # Try installing mikefarah/yq if not exists
 if [[ ! -x "$(command -v yq)" ]]; then
     echo "[WARN] yq not installed"
-    distro="$(lsb_release -d | cut -f2)"
+    # distro="$(lsb_release -d | cut -f2)"
     if [[ -x "$(command -v pacman)" ]]; then
-        sudo pacman -S --no-confirm go-yq
+        sudo pacman -S --noconfirm go-yq
     else
         echo "[ERRO] please install yq manually"
         exit 1
