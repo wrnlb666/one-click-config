@@ -7,18 +7,7 @@ All the config files are intended for my personal use. Backup your old config fi
 
 ## Installation
 ```sh
-wget https://raw.githubusercontent.com/wrnlb666/one-click-config/refs/heads/main/install.py
-chmod +x install.py
-./install.py
-rm install.py
-```
-
-## Parameter
-Default behavior is to install all configs. But the script does not have to install all configs. 
-E.g. If you only wants to install config files for `zsh`, `neovim`, `tmux`, and `starship`, do the following. 
-```sh
-wget https://raw.githubusercontent.com/wrnlb666/one-click-config/refs/heads/main/install.py
-chmod +x install.py
-./install.py zsh neovim tmux starship
-rm install.py
+git clone git@github.com:wrnlb666/one-click-config
+cd one-click-config
+./install.sh
 ```
