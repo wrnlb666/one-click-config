@@ -65,7 +65,7 @@ _install() {
     local target="$(get_target ${repo})"
 
     echo "[INFO] Cloning ${repo}..."
-    err="$(git clone "$url" "$target" 2>&1)"
+    err="$(git clone "$url" "$target" 2>&1 1>/dev/null)"
     rc=$?
     if [[ $rc -ne 0 ]]; then
         echo "[ERRO] git faled to clone ${repo}:"
