@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# helper function
+_help() {
+    echo "Usage: "
+    echo "  ${0} [OPTION] <install|update>..."
+    echo "  With no OPTION or CONFIG specified defaults to -h."
+    echo ""
+    echo "Options:"
+    echo "  -h, --help      Print this help menu"
+}
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            _help
+            exit 0
+            shift
+            ;;
+        install)
+            shift
+            ./install.sh "$@"
+            exit 0
+            ;;
+        update)
+            shift
+            ./update.sh "$@"
+            exit 0
+            ;;
+        *|-*|--*)
+            echo "[ERRO] Unknown option $1"
+            _help
+            exit 1
+            shift
+            ;;
+    esac
+done

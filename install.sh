@@ -46,7 +46,6 @@ mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 # Helper function
 _exists() {
-    _exists() {
     local repo="$1"
     local res="$(echo "$config" | yq ".${repo}")"
     if [[ "$res" == "null" ]]; then
