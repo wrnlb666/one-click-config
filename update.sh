@@ -45,6 +45,15 @@ mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
 # Helper function
+_exists() {
+    local repo="$1"
+    local res="$(echo "$config" | yq ".${repo}")"
+    if [[ "$res" == "null" ]]; then
+        return 1
+    fi
+    return 0
+}
+
 get_url() {
     local repo="$1"
     echo "$config" | yq ".${repo}.url"
@@ -85,6 +94,10 @@ _update() {
     local err
     local repo="$1"
     local target="$(get_target ${repo})"
+    if ! _exists "${repo}"; then
+        echo "[ERRO] ${repo} does not exist"
+        return 1
+    fi
 
     echo "[INFO] Updating ${repo}"
     local cwd="$(pwd)"

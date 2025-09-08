@@ -45,6 +45,16 @@ mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
 # Helper function
+_exists() {
+    _exists() {
+    local repo="$1"
+    local res="$(echo "$config" | yq ".${repo}")"
+    if [[ "$res" == "null" ]]; then
+        return 1
+    fi
+    return 0
+}
+
 get_url() {
     local repo="$1"
     echo "$config" | yq ".${repo}.url"
@@ -84,8 +94,12 @@ _install() {
     local rc
     local err
     local repo="$1"
-    local url="$(get_url ${repo})"
-    local target="$(get_target ${repo})"
+    if ! _exists "${repo}"; then
+        echo "[ERRO] ${repo} does not exist"
+        return 1
+    fi
+    local url="$(get_url "${repo}")"
+    local target="$(get_target "${repo}")"
 
     echo "[INFO] Cloning ${repo}..."
     err="$(git clone "$url" "$target" 2>&1 1>/dev/null)"
