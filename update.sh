@@ -103,7 +103,7 @@ _update() {
                 echo "  $line"
             done
             cd "$cwd"
-            return
+            return 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
