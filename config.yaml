@@ -1,24 +1,24 @@
 nvim:
-  url: github.com:wrnlb666/nvim.conf.git
+  url: wrnlb666/nvim.conf.git
   target: nvim.conf
 tmux: 
-  url: github.com:wrnlb666/tmux.conf.git
+  url: wrnlb666/tmux.conf.git
   target: tmux.conf
 zsh: 
-  url: github.com:wrnlb666/zsh.conf.git
+  url: wrnlb666/zsh.conf.git
   target: zsh.conf
 git: 
-  url: github.com:wrnlb666/gitconfig.git
+  url: wrnlb666/gitconfig.git
   target: gitconfig
 gdb: 
-  url: github.com:wrnlb666/gdbinit.git
+  url: wrnlb666/gdbinit.git
   target: gdbinit
 starship: 
-  url: github.com:wrnlb666/starship.toml.git
+  url: wrnlb666/starship.toml.git
   target: starship
 btop:
-  url: github.com:wrnlb666/btop.git
+  url: wrnlb666/btop.git
   target: btop
 omarchy:
-  url: github.com:wrnlb666/omarchy-setup.git
+  url: wrnlb666/omarchy-setup.git
   target: omarchy

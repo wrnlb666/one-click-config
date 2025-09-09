@@ -103,9 +103,9 @@ _install() {
     local target="$(get_target "${repo}")"
     
     if "${use_http}"; then
-        url="https://${url}"
+        url="https://github.com/${url}"
     else
-        url="git@${url}"
+        url="git@github.com:${url}"
     fi
 
     echo "[INFO] Cloning ${repo}..."
