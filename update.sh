@@ -41,6 +41,7 @@ root="$(pwd)"
 dir="${HOME}/wrnlb/config"
 config=$(cat "$(swd)/config.yaml")
 ins_all=false
+update_occ=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
@@ -70,14 +71,16 @@ _help() {
     echo "  With no OPTION or CONFIG specified defaults to -h."
     echo ""
     echo "Options:"
-    echo "  -h, --help      Print this help menu"
-    echo "  -l, --list      List current available configs"
-    echo "  -a, --all       Install all available configs"
-    echo "  -d, --dir       Config dir, defaults to ~/wrnlb/config"
+    echo "  -h, --help, help        Print this help menu"
+    echo "  -l, --list, ls, list    List current available configs"
+    echo "  -a, --all, all          Install all available configs"
+    echo "  -d, --dir               Config dir, defaults to ~/wrnlb/config"
+
 }
 
 _list() {
     printf "Available Configs:\n  "
+    printf "%s " "occ"
     for key in ${keys[@]}; do
         printf "%s " "${key}"
         # url="$(get_url ${key})"
@@ -172,12 +175,12 @@ fi
 declare -a repos
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -h|--help)
+        -h|--help|help)
             _help
             exit 0
             shift
             ;;
-        -l|--list)
+        -l|--list|ls|list)
             _list
             exit 0
             shift
@@ -187,8 +190,12 @@ while [[ "$#" -gt 0 ]]; do
             shift
             shift
             ;;
-        -a|--all)
+        -a|--all|all)
             ins_all=true
+            shift
+            ;;
+        occ)
+            update_occ=true
             shift
             ;;
         -*|--*)
@@ -204,7 +211,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # update occ
-_update_occ
+[[ update_occ ]] && _update_occ
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
