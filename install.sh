@@ -29,9 +29,9 @@ source "$(swd)/util.sh"
 root="$(pwd)"
 dir="${HOME}/wrnlb/config"
 config=$(cat "$(swd)/config.yaml")
-ins_all=false
-use_http=false
+install_all=false
 install_occ=false
+use_http=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
@@ -128,7 +128,8 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         -a|--all|all)
-            ins_all=true
+            install_all=true
+            install_occ=true
             shift
             ;;
         -*|--*)
@@ -150,7 +151,7 @@ done
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
 command cd "${dir}"
 
-if ${ins_all}; then
+if ${install_all}; then
     _install_all
     exit 0
 fi

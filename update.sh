@@ -29,7 +29,7 @@ source "$(swd)/util.sh"
 root="$(pwd)"
 dir="${HOME}/wrnlb/config"
 config=$(cat "$(swd)/config.yaml")
-ins_all=false
+update_all=false
 update_occ=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
@@ -146,7 +146,8 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         -a|--all|all)
-            ins_all=true
+            update_all=true
+            update_occ=true
             shift
             ;;
         occ)
@@ -173,7 +174,7 @@ done
 command cd "${dir}"
 
 # update all
-if ${ins_all}; then
+if ${update_all}; then
     _update_all
     exit 0
 fi
