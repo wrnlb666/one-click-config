@@ -119,7 +119,7 @@ while [[ "$#" -gt 0 ]]; do
             shift
             shift
             ;;
-        --occ)
+        occ)
             install_occ=true
             shift
             ;;
