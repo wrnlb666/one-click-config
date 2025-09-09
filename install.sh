@@ -112,7 +112,7 @@ _install() {
         exit 1
     fi
     echo "[INFO] Installing ${repo}..."
-    (cd "$target" && ./install.sh)
+    (command cd "$target" && ./install.sh)
 }
 
 _install_all() {
@@ -164,13 +164,15 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
+# cd into target directory
+[[ -d "${dir}" ]] || mkdir -p "${dir}"
+command cd "${dir}"
+
 if ${ins_all}; then
     _install_all
     exit 0
 fi
 
-[[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}"
 for key in ${repos[@]}; do
     _install "$key"
 done

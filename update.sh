@@ -101,7 +101,7 @@ _update() {
 
     echo "[INFO] Updating ${repo}"
     local cwd="$(pwd)"
-    cd "$target"
+    command cd "$target"
     local cb="$(git branch --show-current)"
     git fetch --all
     for branch in $(git branch --format="%(refname:short)"); do
@@ -115,7 +115,7 @@ _update() {
             for line in ${err}; do
                 echo "  $line"
             done
-            cd "$cwd"
+            command cd "$cwd"
             return 1
         fi
     done
@@ -124,7 +124,32 @@ _update() {
         echo "[INFO] Executing update.sh for ${repo}"
         ./update.sh
     fi
-    cd "$cwd"
+    command cd "$cwd"
+}
+
+_update_occ() {
+    local rc
+    local err
+
+    echo "[INFO] Updating occ"
+    local cb="$(git branch --show-current)"
+    git fetch --all
+    for branch in $(git branch --format="%(refname:short)"); do
+        echo "[INFO] Merging branch ${branch}"
+        git checkout "$branch" > /dev/null 2> /dev/null
+        err="$(git merge origin $branch 2>&1 1>/dev/null)"
+        rc=$?
+        if [[ $rc -ne 0 ]]; then
+            echo "[ERRO] git faled to merge branch ${branch}:"
+            IFS=$'\n'
+            for line in ${err}; do
+                echo "  $line"
+            done
+            command cd "$cwd"
+            return 1
+        fi
+    done
+    git checkout "$cb" > /dev/null 2> /dev/null
 }
 
 _update_all() {
@@ -178,13 +203,20 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
+# update occ
+_update_occ
+
+# cd into target directory
+[[ -d "${dir}" ]] || mkdir -p "${dir}"
+command cd "${dir}"
+
+# update all
 if ${ins_all}; then
     _update_all
     exit 0
 fi
 
-[[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}"
+# update selected
 for key in ${repos[@]}; do
     _update "$key"
 done
