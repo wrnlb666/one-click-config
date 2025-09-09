@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-# Try installing mikefarah/yq if not exists
-if [[ ! -x "$(command -v yq)" ]]; then
-    echo "[WARN] yq not installed"
-    # distro="$(lsb_release -d | cut -f2)"
-    if [[ -x "$(command -v pacman)" ]]; then
-        sudo pacman -S --noconfirm go-yq
-    elif [[ -x "$(command -v stew)" ]]; then
-        stew i mikefarah/yq
-    elif [[ -x "$(command -v brew)" ]]; then
-        brew install yq
-    elif [[ -x "$(command -v go)" ]]; then
-        go install github.com/mikefarah/yq/v4@latest
-        PATH="$(go env GOPATH):$PATH"
-    elif [[ -x "$(command -v snap)" ]]; then
-        snap install yq
-    else
-        echo "[ERRO] please install yq manually"
-        exit 1
-    fi
-fi
-
 # Script Working Directory
 swd()
 {
@@ -44,6 +23,7 @@ swd()
     echo "$SCRIPT_DIR"
 }
 
+source "$(swd)/util.sh"
 
 # Global Variables
 root="$(pwd)"
@@ -55,25 +35,6 @@ mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
 # Helper function
-_exists() {
-    local repo="$1"
-    local res="$(echo "$config" | yq ".${repo}")"
-    if [[ "$res" == "null" ]]; then
-        return 1
-    fi
-    return 0
-}
-
-get_url() {
-    local repo="$1"
-    echo "$config" | yq ".${repo}.url"
-}
-
-get_target() {
-    local repo="$1"
-    echo "$config" | yq ".${repo}.target"
-}
-
 _help() {
     echo "Usage: "
     echo "  ${0} [OPTION] [CONFIG]..."
@@ -84,21 +45,6 @@ _help() {
     echo "  -l, --list, ls, list    List current available configs"
     echo "  -a, --all, all          Install all available configs"
     echo "  -d, --dir               Config dir, defaults to ~/wrnlb/config"
-
-}
-
-_list() {
-    printf "Available Configs:\n  "
-    printf "%s " "occ"
-    for key in ${keys[@]}; do
-        printf "%s " "${key}"
-        # url="$(get_url ${key})"
-        # target="$(get_target ${key})"
-        # echo "${key}: "
-        # echo "  url:    ${url}"
-        # echo "  target: ${target}"
-    done
-    echo
 }
 
 _update() {
@@ -143,6 +89,7 @@ _update_occ() {
     local rc
     local err
 
+    command cd "$(swd)"
     echo "[INFO] Updating occ"
     local cb="$(git branch --show-current)"
     git fetch --all
@@ -157,8 +104,7 @@ _update_occ() {
             for line in ${err}; do
                 echo "  $line"
             done
-            command cd "$cwd"
-            return 1
+            exit 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
