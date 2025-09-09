@@ -41,6 +41,7 @@ root="$(pwd)"
 dir="${HOME}/wrnlb/config"
 config=$(cat "$(swd)/config.yaml")
 ins_all=false
+use_http=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
@@ -73,6 +74,7 @@ _help() {
     echo "  -h, --help, help        Print this help menu"
     echo "  -l, --list, ls, list    List current available configs"
     echo "  -a, --all, all          Install all available configs"
+    echo "  --http                  Clone with https instead of ssh"
     echo "  -d, --dir               Config dir, defaults to ~/wrnlb/config"
 }
 
@@ -99,6 +101,12 @@ _install() {
     fi
     local url="$(get_url "${repo}")"
     local target="$(get_target "${repo}")"
+    
+    if "${use_http}"; then
+        url="https://${url}"
+    else
+        url="git@${url}"
+    fi
 
     echo "[INFO] Cloning ${repo}..."
     err="$(git clone "$url" "$target" 2>&1 1>/dev/null)"
@@ -146,6 +154,10 @@ while [[ "$#" -gt 0 ]]; do
         -d|--dir)
             dir="$2"
             shift
+            shift
+            ;;
+        --http|--https)
+            use_http=true
             shift
             ;;
         -a|--all|all)
