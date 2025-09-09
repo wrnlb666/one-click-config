@@ -6,6 +6,15 @@ if [[ ! -x "$(command -v yq)" ]]; then
     # distro="$(lsb_release -d | cut -f2)"
     if [[ -x "$(command -v pacman)" ]]; then
         sudo pacman -S --noconfirm go-yq
+    elif [[ -x "$(command -v stew)" ]]; then
+        stew i mikefarah/yq
+    elif [[ -x "$(command -v brew)" ]]; then
+        brew install yq
+    elif [[ -x "$(command -v go)" ]]; then
+        go install github.com/mikefarah/yq/v4@latest
+        PATH="$(go env GOPATH):$PATH"
+    elif [[ -x "$(command -v snap)" ]]; then
+        snap install yq
     else
         echo "[ERRO] please install yq manually"
         exit 1
