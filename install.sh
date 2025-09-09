@@ -31,6 +31,7 @@ dir="${HOME}/wrnlb/config"
 config=$(cat "$(swd)/config.yaml")
 ins_all=false
 use_http=false
+install_occ=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
 
 
@@ -118,6 +119,10 @@ while [[ "$#" -gt 0 ]]; do
             shift
             shift
             ;;
+        --occ)
+            install_occ=true
+            shift
+            ;;
         --http|--https)
             use_http=true
             shift
@@ -137,6 +142,9 @@ while [[ "$#" -gt 0 ]]; do
             ;;
     esac
 done
+
+# install occ
+[[ install_occ ]] && _install_occ
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
