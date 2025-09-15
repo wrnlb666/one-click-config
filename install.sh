@@ -147,7 +147,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # install occ
-[[ "$install_occ" ]] && _install_occ
+"$install_occ" && _install_occ
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
