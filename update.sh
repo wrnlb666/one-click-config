@@ -168,7 +168,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # update occ
-[[ update_occ ]] && _update_occ
+[[ "$update_occ" ]] && _update_occ
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
