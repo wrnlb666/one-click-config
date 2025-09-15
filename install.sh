@@ -82,6 +82,7 @@ _install() {
 }
 
 _install_occ() {
+    echo "[INFO] Installing occ"
     [[ -d ~/.local/bin ]] || mkdir ~/.local/bin
     ln -sf "$(swd)/occ" ~/.local/bin/occ
 }
