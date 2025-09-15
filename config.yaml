@@ -22,3 +22,6 @@ btop:
 omarchy:
   url: wrnlb666/omarchy-setup.git
   target: omarchy
+crush:
+  url: wrnlb666/crush.conf.git
+  target: crush.conf
