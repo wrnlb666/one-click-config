@@ -60,7 +60,7 @@ _install() {
     local url="$(get_url "${repo}")"
     local target="$(get_target "${repo}")"
     
-    if "${use_http}"; then
+    if "$use_http"; then
         url="https://github.com/${url}"
     else
         url="git@github.com:${url}"
