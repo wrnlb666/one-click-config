@@ -6,8 +6,6 @@ _install_yq() {
         # distro="$(lsb_release -d | cut -f2)"
         if [[ -x "$(command -v pacman)" ]]; then
             sudo pacman -S --noconfirm go-yq
-        elif [[ -x "$(command -v apt)" ]]; then
-            sudo apt install -y yq
         elif [[ -x "$(command -v stew)" ]]; then
             stew i mikefarah/yq
         elif [[ -x "$(command -v brew)" ]]; then
