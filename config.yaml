@@ -19,6 +19,9 @@ starship:
 btop:
   url: wrnlb666/btop.git
   target: btop
+fastfetch:
+  url: wrnlb666/fastfetch.conf
+  target: fastfetch.conf
 omarchy:
   url: wrnlb666/omarchy-setup.git
   target: omarchy
