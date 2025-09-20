@@ -66,6 +66,28 @@ _install_yq() {
     fi
 }
 
+# Get default branch to show diff
+_default_branch() {
+    # Try the locally cached remote HEAD
+    local ref
+    ref=$(git symbolic-ref -q --short refs/remotes/origin/HEAD 2>/dev/null) || true
+    if [ -n "$ref" ]; then
+        echo "${ref#origin/}"
+        return 0
+    fi
+
+    # Fallbacks
+    if git show-ref --verify --quiet refs/heads/main; then
+        echo "main"; return 0
+    fi
+    if git show-ref --verify --quiet refs/heads/master; then
+        echo "master"; return 0
+    fi
+
+    echo "[ERRO] Could not determine default branch locally." >&2
+    exit 1
+}
+
 # Helper functions
 _exists() {
     local repo="$1"

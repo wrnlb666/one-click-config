@@ -61,7 +61,7 @@ _update() {
     local cwd="$(pwd)"
     command cd "$target"
     local cb="$(git branch --show-current)"
-    local db=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+    local db="$(_default_branch)"
     local before=$(git rev-parse "origin/${db}")
     git fetch origin --quiet
     local after=$(git rev-parse "origin/${db}")
@@ -96,7 +96,7 @@ _update_occ() {
     command cd "$(swd)"
     echo "[INFO] Updating occ"
     local cb="$(git branch --show-current)"
-    local db=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+    local db="$(_default_branch)"
     local before=$(git rev-parse "origin/${db}")
     git fetch origin --quiet
     local after=$(git rev-parse "origin/${db}")
