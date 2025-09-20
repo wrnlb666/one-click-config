@@ -28,3 +28,6 @@ omarchy:
 crush:
   url: wrnlb666/crush.conf.git
   target: crush.conf
+fcitx5:
+  url: wrnlb666/fcitx5.conf.git
+  target: fcitx5.conf
