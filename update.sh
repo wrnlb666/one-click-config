@@ -61,7 +61,11 @@ _update() {
     local cwd="$(pwd)"
     command cd "$target"
     local cb="$(git branch --show-current)"
-    git fetch --all
+    local db=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+    local before=$(git rev-parse "origin/${db}")
+    git fetch origin --quiet
+    local after=$(git rev-parse "origin/${db}")
+    [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
         echo "[INFO] Merging branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
@@ -92,7 +96,11 @@ _update_occ() {
     command cd "$(swd)"
     echo "[INFO] Updating occ"
     local cb="$(git branch --show-current)"
-    git fetch --all
+    local db=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+    local before=$(git rev-parse "origin/${db}")
+    git fetch origin --quiet
+    local after=$(git rev-parse "origin/${db}")
+    [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
         echo "[INFO] Merging branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
