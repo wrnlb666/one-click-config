@@ -7,6 +7,9 @@ tmux:
 zsh: 
   url: wrnlb666/zsh.conf.git
   target: zsh.conf
+bash: 
+  url: wrnlb666/bash.conf.git
+  target: bash.conf
 git: 
   url: wrnlb666/gitconfig.git
   target: gitconfig
