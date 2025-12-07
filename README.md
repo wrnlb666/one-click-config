@@ -7,13 +7,13 @@ All the config files are intended for my personal use. Backup your old config fi
 
 ## Installation
 ```sh
-git clone git@github.com:wrnlb666/one-click-config occ
+git clone git@github.com:wrnlb666/one-click-config.git occ
 cd occ
 ./install.sh
 ```
 ## Install with https
 ```sh
-git clone https://github.com:wrnlb666/one-click-config occ
+git clone https://github.com/wrnlb666/one-click-config.git occ
 cd occ
 ./install.sh
 
