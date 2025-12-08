@@ -50,16 +50,14 @@ _install_yq() {
         echo "[WARN] yq not installed"
         # distro="$(lsb_release -d | cut -f2)"
         if [[ -x "$(command -v pacman)" ]]; then
-            sudo pacman -S --noconfirm go-yq
-        elif [[ -x "$(command -v stew)" ]]; then
-            stew i mikefarah/yq
+            sudo pacman -S --noconfirm go-yq || exit 1
+        elif [[ -x "$(command -v dnf5)" ]]; then
+            sudo dnf5 install -y yq || exit 1
         elif [[ -x "$(command -v brew)" ]]; then
-            brew install yq
+            brew install yq || exit 1
         elif [[ -x "$(command -v go)" ]]; then
-            go install github.com/mikefarah/yq/v4@latest
-            PATH="$(go env GOPATH):$PATH"
-        elif [[ -x "$(command -v snap)" ]]; then
-            snap install yq
+            go install github.com/mikefarah/yq/v4@latest || exit 1
+            export PATH="$(go env GOPATH):$PATH"
         else
             _install_yq_binary || exit 1
         fi
