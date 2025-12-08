@@ -93,8 +93,9 @@ _update_occ() {
     local rc
     local err
 
-    command cd "$(swd)"
     echo "[INFO] Updating occ"
+    local cwd="$(pwd)"
+    command cd "$(swd)"
     local cb="$(git branch --show-current)"
     local db="$(_default_branch)"
     local before=$(git rev-parse "origin/${db}")
@@ -112,10 +113,12 @@ _update_occ() {
             for line in ${err}; do
                 echo "  $line"
             done
+            command cd "$cwd"
             exit 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
+    command cd "$cwd"
 }
 
 _update_all() {
