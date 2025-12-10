@@ -24,6 +24,7 @@ swd()
 }
 
 source "$(swd)/util.sh"
+_install_yq
 
 # Global Variables
 root="$(pwd)"
@@ -138,7 +139,6 @@ if [[ "$#" -eq 0 ]]; then
     exit 0
 fi
 
-_install_yq
 declare -a repos
 while [[ "$#" -gt 0 ]]; do
     case $1 in
