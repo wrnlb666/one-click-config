@@ -35,7 +35,11 @@ _help() {
     echo "  -h, --help      Print this help menu"
 }
 
-_install_yq
+if [[ "$#" -eq 0 ]]; then
+    _help
+    exit 0
+fi
+
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -h|--help)
