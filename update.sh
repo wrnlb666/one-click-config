@@ -22,14 +22,14 @@ swd() {
     echo "$SCRIPT_DIR"
 }
 
-cwd="$(swd)"
-source "${cwd}/util.sh"
+dcwd="$(swd)"
+source "${dcwd}/util.sh"
 _install_yq
 
 # Global Variables
 root="$(pwd)"
-dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
-config=$(cat "${cwd}/config.yaml")
+dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
+config=$(cat "${dcwd}/config.yaml")
 update_all=false
 update_occ=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
@@ -96,7 +96,7 @@ _update_occ() {
 
     echo "[INFO] Updating occ"
     local cwd="$(pwd)"
-    command cd "${cwd}"
+    command cd "${dcwd}"
     local cb="$(git branch --show-current)"
     local db="$(_default_branch)"
     local before=$(git rev-parse "origin/${db}")

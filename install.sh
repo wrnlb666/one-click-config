@@ -22,14 +22,14 @@ swd() {
     echo "$SCRIPT_DIR"
 }
 
-cwd="$(swd)"
+dcwd="$(swd)"
 source "${cwd}/util.sh"
 _install_yq
 
 # Global Variables
 root="$(pwd)"
-dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
-config=$(cat "${cwd}/config.yaml")
+dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
+config=$(cat "${dcwd}/config.yaml")
 install_all=false
 install_occ=false
 use_http=false
@@ -84,7 +84,7 @@ _install() {
 _install_occ() {
     echo "[INFO] Installing occ"
     [[ -d ~/.local/bin ]] || mkdir ~/.local/bin
-    ln -sf "${cwd}/occ" ~/.local/bin/occ
+    ln -sf "${dcwd}/occ" ~/.local/bin/occ
 }
 
 _install_all() {
