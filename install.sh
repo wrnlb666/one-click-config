@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Script Working Directory
-swd()
-{
+swd() {
     local SOURCE_PATH="${BASH_SOURCE[0]}"
     local SYMLINK_DIR
     local SCRIPT_DIR
@@ -23,13 +22,14 @@ swd()
     echo "$SCRIPT_DIR"
 }
 
-source "$(swd)/util.sh"
+cwd="$(swd)"
+source "${cwd}/util.sh"
 _install_yq
 
 # Global Variables
 root="$(pwd)"
-dir="${HOME}/wrnlb/config"
-config=$(cat "$(swd)/config.yaml")
+dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
+config=$(cat "${cwd}/config.yaml")
 install_all=false
 install_occ=false
 use_http=false
@@ -46,7 +46,7 @@ _help() {
     echo "  -l, --list, ls, list    List current available configs"
     echo "  -a, --all, all          Install all available configs"
     echo "  --http                  Clone with https instead of ssh"
-    echo "  -d, --dir               Config dir, defaults to ~/wrnlb/config"
+    echo "  -d, --dir               Config dir, defaults to ${dir}"
 }
 
 _install() {
@@ -84,7 +84,7 @@ _install() {
 _install_occ() {
     echo "[INFO] Installing occ"
     [[ -d ~/.local/bin ]] || mkdir ~/.local/bin
-    ln -sf "$(swd)/occ" ~/.local/bin/occ
+    ln -sf "${cwd}/occ" ~/.local/bin/occ
 }
 
 _install_all() {

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Script Working Directory
-swd()
-{
+swd() {
     local SOURCE_PATH="${BASH_SOURCE[0]}"
     local SYMLINK_DIR
     local SCRIPT_DIR
@@ -23,7 +22,8 @@ swd()
     echo "$SCRIPT_DIR"
 }
 
-source "$(swd)/util.sh"
+cwd="$(swd)"
+source "${cwd}/util.sh"
 
 # helper function
 _help() {
@@ -45,12 +45,12 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         install)
             shift
-            "$(swd)/install.sh" "$@"
+            "${cwd}/install.sh" "$@"
             exit 0
             ;;
         update)
             shift
-            "$(swd)/update.sh" "$@"
+            "${cwd}/update.sh" "$@"
             exit 0
             ;;
         *|-*|--*)

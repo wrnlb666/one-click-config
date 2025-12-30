@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Script Working Directory
-swd()
-{
+swd() {
     local SOURCE_PATH="${BASH_SOURCE[0]}"
     local SYMLINK_DIR
     local SCRIPT_DIR
@@ -23,13 +22,14 @@ swd()
     echo "$SCRIPT_DIR"
 }
 
-source "$(swd)/util.sh"
+cwd="$(swd)"
+source "${cwd}/util.sh"
 _install_yq
 
 # Global Variables
 root="$(pwd)"
-dir="${HOME}/wrnlb/config"
-config=$(cat "$(swd)/config.yaml")
+dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
+config=$(cat "${cwd}/config.yaml")
 update_all=false
 update_occ=false
 mapfile -t keys < <(echo "$config" | yq 'keys[]')
@@ -45,7 +45,7 @@ _help() {
     echo "  -h, --help, help        Print this help menu"
     echo "  -l, --list, ls, list    List current available configs"
     echo "  -a, --all, all          Install all available configs"
-    echo "  -d, --dir               Config dir, defaults to ~/wrnlb/config"
+    echo "  -d, --dir               Config dir, defaults to ${dir}"
 }
 
 _update() {
@@ -96,7 +96,7 @@ _update_occ() {
 
     echo "[INFO] Updating occ"
     local cwd="$(pwd)"
-    command cd "$(swd)"
+    command cd "${cwd}"
     local cb="$(git branch --show-current)"
     local db="$(_default_branch)"
     local before=$(git rev-parse "origin/${db}")
