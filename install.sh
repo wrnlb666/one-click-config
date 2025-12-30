@@ -23,7 +23,7 @@ swd() {
 }
 
 dcwd="$(swd)"
-source "${cwd}/util.sh"
+source "${dcwd}/util.sh"
 _install_yq
 
 # Global Variables
