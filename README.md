@@ -7,16 +7,20 @@ All the config files are intended for my personal use. Backup your old config fi
 
 ## Installation
 ```sh
-[[ -d ~/wrnlb/config ]] || mkdir -p ~/wrnlb/config
-command cd ~/wrnlb/config
+# target can be any directory with `rwx` permission
+target=~/wrnlb/config
+[[ -d "${target}" ]] || mkdir -p "${target}"
+command cd "${target}"
 git clone git@github.com:wrnlb666/one-click-config.git occ
 command cd occ
 ./occ install occ
 ```
 ## Install with https
 ```sh
-[[ -d ~/wrnlb/config ]] || mkdir -p ~/wrnlb/config
-command cd ~/wrnlb/config
+# target can be any directory with `rwx` permission
+target=~/wrnlb/config
+[[ -d "${target}" ]] || mkdir -p "${target}"
+command cd "${target}"
 git clone https://github.com/wrnlb666/one-click-config.git occ
 command cd occ
 ./occ install occ
