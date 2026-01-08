@@ -1,7 +1,6 @@
-
 # Try installing mikefarah/yq if not exists
-_install_yq_binary() {
-    local err="[ERRO] please install yq manually"
+_install_jq_binary() {
+    local err="[ERRO] please install jq manually"
     local required=("uname" "curl")
     for r in ${required[@]}; do
         if [[ ! -x "$(command -v "$r")" ]]; then
@@ -10,11 +9,14 @@ _install_yq_binary() {
         fi
     done
     # check OS
-    local OS="$(uname -s)"
+    local OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
     local os
     case "$OS" in
-        Linux)
+        linux)
             os="linux"
+            ;;
+        darwin)
+            os="macos"
             ;;
         *)
             echo "$err"
@@ -28,38 +30,40 @@ _install_yq_binary() {
         x86_64)
             arch="amd64"
             ;;
+        aarch64)
+            arch="arm64"
+            ;;
         *)
             echo "$err"
             return 1
             ;;
     esac
-    # install yq from github
+    # install jq from github
     [[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
-    curl "https://github.com/mikefarah/yq/releases/latest/download/yq_${os}_${arch}" \
-        -Lo ~/.local/bin/yq
+    curl "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-${os}-${arch}" \
+        -Lo ~/.local/bin/jq
     if [[ $? -ne 0 ]]; then
         echo "$err"
         return 1
     fi
-    chmod +x ~/.local/bin/yq
+    chmod +x ~/.local/bin/jq
     export PATH="${HOME}/.local/bin:$PATH"
 }
 
-_install_yq() {
+_install_jq() {
     if [[ ! -x "$(command -v yq)" ]]; then
-        echo "[WARN] yq not installed"
+        echo "[WARN] jq not installed"
         # distro="$(lsb_release -d | cut -f2)"
         if [[ -x "$(command -v pacman)" ]]; then
-            sudo pacman -S --noconfirm go-yq || exit 1
-        elif [[ -x "$(command -v dnf5)" ]]; then
-            sudo dnf5 install -y yq || exit 1
+            sudo pacman -S --noconfirm jq || exit 1
+        elif [[ -x "$(command -v dnf)" ]]; then
+            sudo dnf5 install -y jq || exit 1
+        elif [[ -x "$(command -v apt)" ]]; then
+            sudo apt install -y jq || exit 1
         elif [[ -x "$(command -v brew)" ]]; then
-            brew install yq || exit 1
-        elif [[ -x "$(command -v go)" ]]; then
-            go install github.com/mikefarah/yq/v4@latest || exit 1
-            export PATH="$(go env GOPATH):$PATH"
+            brew install jq || exit 1
         else
-            _install_yq_binary || exit 1
+            _install_jq_binary || exit 1
         fi
     fi
 }
@@ -89,7 +93,7 @@ _default_branch() {
 # Helper functions
 _exists() {
     local repo="$1"
-    local res="$(echo "$config" | yq ".${repo}")"
+    local res="$(echo "$config" | jq -r ".${repo}")"
     if [[ "$res" == "null" ]]; then
         return 1
     fi
@@ -98,12 +102,12 @@ _exists() {
 
 get_url() {
     local repo="$1"
-    echo "$config" | yq ".${repo}.url"
+    echo "$config" | jq -r ".${repo}.url"
 }
 
 get_target() {
     local repo="$1"
-    echo "$config" | yq ".${repo}.target"
+    echo "$config" | jq -r ".${repo}.target"
 }
 
 _list() {

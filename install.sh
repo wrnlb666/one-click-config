@@ -24,16 +24,16 @@ swd() {
 
 dcwd="$(swd)"
 source "${dcwd}/util.sh"
-_install_yq
+# _install_yq
 
 # Global Variables
 root="$(pwd)"
 dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
-config=$(cat "${dcwd}/config.yaml")
+config=$(cat "${dcwd}/config.json")
 install_all=false
 install_occ=false
 use_http=false
-mapfile -t keys < <(echo "$config" | yq 'keys[]')
+mapfile -t keys < <(echo "$config" | jq -r 'keys[]')
 
 # Helper function
 _help() {

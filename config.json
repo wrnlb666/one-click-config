@@ -1,0 +1,55 @@
+{
+  "nvim": {
+    "url": "wrnlb666/nvim.conf.git",
+    "target": "nvim.conf"
+  },
+  "tmux": {
+    "url": "wrnlb666/tmux.conf.git",
+    "target": "tmux.conf"
+  },
+  "bash": {
+    "url": "wrnlb666/bash.conf.git",
+    "target": "bash.conf"
+  },
+  "zsh": {
+    "url": "wrnlb666/zsh.conf.git",
+    "target": "zsh.conf"
+  },
+  "starship": {
+    "url": "wrnlb666/starship.toml.git",
+    "target": "starship"
+  },
+  "fastfetch": {
+    "url": "wrnlb666/fastfetch.conf",
+    "target": "fastfetch.conf"
+  },
+  "git": {
+    "url": "wrnlb666/gitconfig.git",
+    "target": "gitconfig"
+  },
+  "micro": {
+    "url": "wrnlb666/micro.conf",
+    "target": "micro.conf"
+  },
+  "gdb": {
+    "url": "wrnlb666/gdbinit.git",
+    "target": "gdbinit"
+  },
+  "btop": {
+    "url": "wrnlb666/btop.git",
+    "target": "btop"
+  },
+  "omarchy": {
+    "url": "wrnlb666/omarchy-setup.git",
+    "target": "omarchy"
+  },
+  "crush": {
+    "url": "wrnlb666/crush.conf.git",
+    "target": "crush.conf"
+  },
+  "fcitx5": {
+    "url": "wrnlb666/fcitx5.conf.git",
+    "target": "fcitx5.conf"
+  }
+}
+
