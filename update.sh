@@ -70,14 +70,15 @@ _update() {
     for branch in $(git branch --format="%(refname:short)"); do
         echo "[INFO] Merging branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
-        err="$(git merge origin $branch 2>&1 1>/dev/null)"
+        err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
         if [[ $rc -ne 0 ]]; then
-            echo "[ERRO] git faled to merge branch ${branch}:"
+            echo "[ERRO] git faled to rebase branch ${branch}:"
             IFS=$'\n'
             for line in ${err}; do
                 echo "  $line"
             done
+            git rebase --abort >/dev/null
             command cd "$cwd"
             return 1
         fi
@@ -106,14 +107,15 @@ _update_occ() {
     for branch in $(git branch --format="%(refname:short)"); do
         echo "[INFO] Merging branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
-        err="$(git merge origin $branch 2>&1 1>/dev/null)"
+        err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
         if [[ $rc -ne 0 ]]; then
-            echo "[ERRO] git faled to merge branch ${branch}:"
+            echo "[ERRO] git faled to rebase branch ${branch}:"
             IFS=$'\n'
             for line in ${err}; do
                 echo "  $line"
             done
+            git rebase --abort >/dev/null
             command cd "$cwd"
             exit 1
         fi
