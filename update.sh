@@ -68,7 +68,7 @@ _update() {
     local after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
-        echo "[INFO] Merging branch ${branch}"
+        echo "[INFO] Rebasing onto branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
         err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
@@ -105,7 +105,7 @@ _update_occ() {
     local after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
-        echo "[INFO] Merging branch ${branch}"
+        echo "[INFO] Rebasing onto branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
         err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
