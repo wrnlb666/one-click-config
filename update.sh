@@ -58,7 +58,7 @@ _update() {
         return 1
     fi
 
-    echo "[INFO] Updating ${repo}"
+    echo "[INFO] Fetching ${repo} from remote"
     local cwd="$(pwd)"
     command cd "$target"
     local cb="$(git branch --show-current)"
@@ -68,12 +68,18 @@ _update() {
     local after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
+        if [[ \
+                "$(git rev-parse "${branch}")" == \
+                "$(git rev-parse "origin/${branch}")" \
+            ]]; then
+            continue
+        fi
         echo "[INFO] Rebasing onto branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
         err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
         if [[ $rc -ne 0 ]]; then
-            echo "[ERRO] git faled to rebase branch ${branch}:"
+            echo "[ERRO] git failed to rebase onto branch ${branch}:"
             IFS=$'\n'
             for line in ${err}; do
                 echo "  $line"
@@ -95,7 +101,7 @@ _update_occ() {
     local rc
     local err
 
-    echo "[INFO] Updating occ"
+    echo "[INFO] Fetching occ from remote"
     local cwd="$(pwd)"
     command cd "${dcwd}"
     local cb="$(git branch --show-current)"
@@ -105,12 +111,18 @@ _update_occ() {
     local after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
+        if [[ \
+                "$(git rev-parse "${branch}")" == \
+                "$(git rev-parse "origin/${branch}")" \
+            ]]; then
+            continue
+        fi
         echo "[INFO] Rebasing onto branch ${branch}"
         git checkout "$branch" > /dev/null 2> /dev/null
         err="$(git rebase --autostash "origin/${branch}" 2>&1 1>/dev/null)"
         rc=$?
         if [[ $rc -ne 0 ]]; then
-            echo "[ERRO] git faled to rebase branch ${branch}:"
+            echo "[ERRO] git failed to rebase onto branch ${branch}:"
             IFS=$'\n'
             for line in ${err}; do
                 echo "  $line"
