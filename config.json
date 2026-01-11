@@ -39,6 +39,10 @@
     "url": "wrnlb666/btop.git",
     "target": "btop"
   },
+  "opencode": {
+    "url": "wrnlb666/opencode.conf.git",
+    "target": "opencode.conf"
+  },
   "omarchy": {
     "url": "wrnlb666/omarchy-setup.git",
     "target": "omarchy"
