@@ -69,7 +69,7 @@ _update() {
         return 1
     fi
 
-    echo "[INFO] Fetching ${repo} from remote"
+    echo "[INFO] Fetching ${repo} from remote..."
     local cwd="$(pwd)"
     command cd "$target"
     local cb="$(git branch --show-current)"

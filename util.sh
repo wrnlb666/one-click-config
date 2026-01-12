@@ -100,6 +100,11 @@ _exists() {
     return 0
 }
 
+get_git() {
+    local repo="$1"
+    echo "$config" | jq -r ".${repo}.git"
+}
+
 get_url() {
     local repo="$1"
     echo "$config" | jq -r ".${repo}.url"

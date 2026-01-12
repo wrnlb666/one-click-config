@@ -65,13 +65,14 @@ _install() {
         echo "[ERRO] ${repo} does not exist"
         return 1
     fi
+    local git="$(get_git ${repo})"
     local url="$(get_url "${repo}")"
     local target="$(get_target "${repo}")"
     
     if "$use_http"; then
-        url="https://github.com/${url}"
+        url="https://${git}/${url}"
     else
-        url="git@github.com:${url}"
+        url="git@${git}:${url}"
     fi
 
     echo "[INFO] Cloning ${repo}..."
