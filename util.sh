@@ -1,4 +1,4 @@
-# Try installing mikefarah/yq if not exists
+# Try installing jq if not exists
 _install_jq_binary() {
     local err="[ERRO] please install jq manually"
     local required=("uname" "curl")
@@ -51,7 +51,7 @@ _install_jq_binary() {
 }
 
 _install_jq() {
-    if [[ ! -x "$(command -v yq)" ]]; then
+    if [[ ! -x "$(command -v jq)" ]]; then
         echo "[WARN] jq not installed"
         # distro="$(lsb_release -d | cut -f2)"
         if [[ -x "$(command -v pacman)" ]]; then

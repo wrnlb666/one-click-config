@@ -159,6 +159,8 @@ _update_all() {
 
 
 # Main Function
+_install_jq
+
 if [[ "$#" -eq 0 ]]; then
     _help
     exit 0
