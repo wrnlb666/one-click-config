@@ -49,6 +49,14 @@ _help() {
     echo "  -d, --dir               Config dir, defaults to ${dir}"
 }
 
+_list() {
+    printf "Available Configs:\n  "
+    for key in ${keys[@]}; do
+        printf "%s " "${key}"
+    done
+    echo
+}
+
 _install() {
     local rc
     local err

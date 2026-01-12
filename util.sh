@@ -109,12 +109,3 @@ get_target() {
     local repo="$1"
     echo "$config" | jq -r ".${repo}.target"
 }
-
-_list() {
-    printf "Available Configs:\n  "
-    for key in ${keys[@]}; do
-        printf "%s " "${key}"
-    done
-    echo
-}
-

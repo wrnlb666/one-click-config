@@ -48,6 +48,17 @@ _help() {
     echo "  -d, --dir               Config dir, defaults to ${dir}"
 }
 
+_list() {
+    printf "Available Configs:\n  "
+    for key in ${keys[@]}; do
+        local target="$(get_target "$key")" 
+        if [[ -d "${dir}/${target}" ]]; then
+            printf "%s " "${key}"
+        fi
+    done
+    echo
+}
+
 _update() {
     local rc
     local err
