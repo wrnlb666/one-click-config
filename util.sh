@@ -40,7 +40,7 @@ _install_jq_binary() {
     esac
     # install jq from github
     [[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
-    curl "http://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-${os}-${arch}" \
+    curl "https://github.com/jqlang/jq/releases/latest/download/jq-${os}-${arch}" \
         -Lo ~/.local/bin/jq
     if [[ $? -ne 0 ]]; then
         echo "$err"
