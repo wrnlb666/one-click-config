@@ -45,7 +45,7 @@ _help() {
     echo "  -h, --help, help        Print this help menu"
     echo "  -l, --list, ls, list    List current available configs"
     echo "  -a, --all, all          Install all available configs"
-    echo "  --http                  Clone with https instead of ssh"
+    echo "  --http, --https         Clone with http or https instead of ssh"
     echo "  -d, --dir               Config dir, defaults to ${dir}"
 }
 
@@ -65,14 +65,13 @@ _install() {
         echo "[ERRO] ${repo} does not exist"
         return 1
     fi
-    local git="$(get_git ${repo})"
-    local url="$(get_url "${repo}")"
+    local url=""
     local target="$(get_target "${repo}")"
     
     if "$use_http"; then
-        url="https://${git}/${url}"
+        url="$(get_http "${repo}")"
     else
-        url="git@${git}:${url}"
+        url="$(get_ssh "${repo}")"
     fi
 
     echo "[INFO] Cloning ${repo}..."

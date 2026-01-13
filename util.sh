@@ -40,7 +40,7 @@ _install_jq_binary() {
     esac
     # install jq from github
     [[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
-    curl "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-${os}-${arch}" \
+    curl "http://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-${os}-${arch}" \
         -Lo ~/.local/bin/jq
     if [[ $? -ne 0 ]]; then
         echo "$err"
@@ -100,14 +100,14 @@ _exists() {
     return 0
 }
 
-get_git() {
+get_ssh() {
     local repo="$1"
-    echo "$config" | jq -r ".${repo}.git"
+    echo "$config" | jq -r ".${repo}.ssh"
 }
 
-get_url() {
+get_http() {
     local repo="$1"
-    echo "$config" | jq -r ".${repo}.url"
+    echo "$config" | jq -r ".${repo}.http"
 }
 
 get_target() {

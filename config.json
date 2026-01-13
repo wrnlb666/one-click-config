@@ -1,73 +1,72 @@
 {
   "nvim": {
-    "git": "github.com",
-    "url": "wrnlb666/nvim.conf.git",
+    "ssh": "git@github.com:wrnlb666/nvim.conf.git",
+    "http": "https://github.com/wrnlb666/nvim.conf.git",
     "target": "nvim.conf"
   },
   "tmux": {
-    "git": "github.com",
-    "url": "wrnlb666/tmux.conf.git",
+    "ssh": "git@github.com:wrnlb666/tmux.conf.git",
+    "http": "https://github.com/wrnlb666/tmux.conf.git",
     "target": "tmux.conf"
   },
   "bash": {
-    "git": "github.com",
-    "url": "wrnlb666/bash.conf.git",
+    "ssh": "git@github.com:wrnlb666/bash.conf.git",
+    "http": "https://github.com/wrnlb666/bash.conf.git",
     "target": "bash.conf"
   },
   "zsh": {
-    "git": "github.com",
-    "url": "wrnlb666/zsh.conf.git",
+    "ssh": "git@github.com:wrnlb666/zsh.conf.git",
+    "http": "https://github.com/wrnlb666/zsh.conf.git",
     "target": "zsh.conf"
   },
   "starship": {
-    "git": "github.com",
-    "url": "wrnlb666/starship.toml.git",
+    "ssh": "git@github.com:wrnlb666/starship.toml.git",
+    "http": "https://github.com/wrnlb666/starship.toml.git",
     "target": "starship"
   },
   "fastfetch": {
-    "git": "github.com",
-    "url": "wrnlb666/fastfetch.conf",
+    "ssh": "git@github.com:wrnlb666/fastfetch.conf.git",
+    "http": "https://github.com/wrnlb666/fastfetch.conf.git",
     "target": "fastfetch.conf"
   },
   "git": {
-    "git": "github.com",
-    "url": "wrnlb666/gitconfig.git",
+    "ssh": "git@github.com:wrnlb666/gitconfig.git",
+    "http": "https://github.com/wrnlb666/gitconfig.git",
     "target": "gitconfig"
   },
   "micro": {
-    "git": "github.com",
-    "url": "wrnlb666/micro.conf",
+    "ssh": "git@github.com:wrnlb666/micro.conf.git",
+    "http": "https://github.com/wrnlb666/micro.conf.git",
     "target": "micro.conf"
   },
   "gdb": {
-    "git": "github.com",
-    "url": "wrnlb666/gdbinit.git",
+    "ssh": "git@github.com:wrnlb666/gdbinit.git",
+    "http": "https://github.com/wrnlb666/gdbinit.git",
     "target": "gdbinit"
   },
   "btop": {
-    "git": "github.com",
-    "url": "wrnlb666/btop.git",
+    "ssh": "git@github.com:wrnlb666/btop.git",
+    "http": "https://github.com/wrnlb666/btop.git",
     "target": "btop"
   },
   "opencode": {
-    "git": "github.com",
-    "url": "wrnlb666/opencode.conf.git",
+    "ssh": "git@github.com:wrnlb666/opencode.conf.git",
+    "http": "https://github.com/wrnlb666/opencode.conf.git",
     "target": "opencode.conf"
   },
   "omarchy": {
-    "git": "github.com",
-    "url": "wrnlb666/omarchy-setup.git",
+    "ssh": "git@github.com:wrnlb666/omarchy-setup.git",
+    "http": "https://github.com/wrnlb666/omarchy-setup.git",
     "target": "omarchy"
   },
   "crush": {
-    "git": "github.com",
-    "url": "wrnlb666/crush.conf.git",
+    "ssh": "git@github.com:wrnlb666/crush.conf.git",
+    "http": "https://github.com/wrnlb666/crush.conf.git",
     "target": "crush.conf"
   },
   "fcitx5": {
-    "git": "github.com",
-    "url": "wrnlb666/fcitx5.conf.git",
+    "ssh": "git@github.com:wrnlb666/fcitx5.conf.git",
+    "http": "https://github.com/wrnlb666/fcitx5.conf.git",
     "target": "fcitx5.conf"
   }
 }
-
