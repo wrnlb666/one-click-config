@@ -24,10 +24,8 @@ swd() {
 
 dcwd="$(swd)"
 source "${dcwd}/util.sh"
-# _install_yq
 
 # Global Variables
-root="$(pwd)"
 dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
 config=$(cat "${dcwd}/config.json")
 install_all=false
