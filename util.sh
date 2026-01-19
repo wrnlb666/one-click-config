@@ -53,18 +53,19 @@ _install_jq_binary() {
 _install_jq() {
     if [[ ! -x "$(command -v jq)" ]]; then
         echo "[WARN] jq not installed"
-        # distro="$(lsb_release -d | cut -f2)"
         if [[ -x "$(command -v pacman)" ]]; then
-            sudo pacman -S --noconfirm jq || exit 1
-        elif [[ -x "$(command -v dnf)" ]]; then
-            sudo dnf5 install -y jq || exit 1
-        elif [[ -x "$(command -v apt)" ]]; then
-            sudo apt install -y jq || exit 1
-        elif [[ -x "$(command -v brew)" ]]; then
-            brew install jq || exit 1
-        else
-            _install_jq_binary || exit 1
+            sudo pacman -S --noconfirm jq && return
         fi
+        if [[ -x "$(command -v dnf)" ]]; then
+            sudo dnf install -y jq && return
+        fi
+        if [[ -x "$(command -v apt)" ]]; then
+            sudo apt install -y jq && return
+        fi
+        if [[ -x "$(command -v brew)" ]]; then
+            brew install jq && return
+        fi
+        _install_jq_binary || exit 1
     fi
 }
 
