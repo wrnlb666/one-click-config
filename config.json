@@ -54,6 +54,11 @@
     "http": "https://github.com/wrnlb666/btop.git",
     "target": "btop"
   },
+  "spf": {
+    "ssh": "git@github.com:wrnlb666/spf.conf.git",
+    "http": "https://github.com/wrnlb666/spf.conf.git",
+    "target": "spf.conf"
+  },
   "opencode": {
     "ssh": "git@github.com:wrnlb666/opencode.conf.git",
     "http": "https://github.com/wrnlb666/opencode.conf.git",
