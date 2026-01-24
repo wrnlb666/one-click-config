@@ -59,13 +59,13 @@ _install() {
     local rc
     local err
     local repo="$1"
-    if ! _exists "${repo}"; then
+    local target="$(get_target "${repo}" 2>/dev/null)"
+    if [[ -z "${target}" ]]; then
         echo "[ERRO] ${repo} does not exist"
         return 1
     fi
+
     local url=""
-    local target="$(get_target "${repo}")"
-    
     if "$use_http"; then
         url="$(get_http "${repo}")"
     else

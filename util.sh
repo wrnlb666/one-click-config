@@ -103,15 +103,15 @@ _exists() {
 
 get_ssh() {
     local repo="$1"
-    echo "$config" | jq -r ".${repo}.ssh"
+    jq -r --arg repo "$repo" '.[$repo].ssh // empty' <<< "$config"
 }
 
 get_http() {
     local repo="$1"
-    echo "$config" | jq -r ".${repo}.http"
+    jq -r --arg repo "$repo" '.[$repo].http // empty' <<< "$config"
 }
 
 get_target() {
     local repo="$1"
-    echo "$config" | jq -r ".${repo}.target"
+    jq -r --arg repo "$repo" '.[$repo].target // empty' <<< "$config"
 }

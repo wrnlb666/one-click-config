@@ -61,8 +61,8 @@ _update() {
     local rc
     local err
     local repo="$1"
-    local target="$(get_target ${repo})"
-    if ! _exists "${repo}"; then
+    local target="$(get_target "${repo}" 2>/dev/null)"
+    if [[ -z "${target}" ]]; then
         echo "[ERRO] ${repo} does not exist"
         return 1
     fi
