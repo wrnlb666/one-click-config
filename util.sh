@@ -2,15 +2,16 @@
 _install_jq_binary() {
     local err="[ERRO] please install jq manually"
     local required=("uname" "curl")
-    for r in ${required[@]}; do
+    for r in "${required[@]}"; do
         if [[ ! -x "$(command -v "$r")" ]]; then
             echo "$err"
             return 1
         fi
     done
     # check OS
-    local OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
+    local OS
     local os
+    OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
     case "$OS" in
         linux)
             os="linux"
@@ -24,8 +25,9 @@ _install_jq_binary() {
             ;;
     esac
     # check ARCH
-    local ARCH="$(uname -m)"
+    local ARCH
     local arch
+    ARCH="$(uname -m)"
     case "$ARCH" in
         x86_64)
             arch="amd64"
@@ -40,9 +42,8 @@ _install_jq_binary() {
     esac
     # install jq from github
     [[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
-    curl "https://github.com/jqlang/jq/releases/latest/download/jq-${os}-${arch}" \
-        -Lo ~/.local/bin/jq
-    if [[ $? -ne 0 ]]; then
+    if ! curl "https://github.com/jqlang/jq/releases/latest/download/jq-${os}-${arch}" \
+        -Lo ~/.local/bin/jq ; then 
         echo "$err"
         return 1
     fi
@@ -92,26 +93,20 @@ _default_branch() {
 }
 
 # Helper functions
-_exists() {
-    local repo="$1"
-    local res="$(echo "$config" | jq -r ".${repo}")"
-    if [[ "$res" == "null" ]]; then
-        return 1
-    fi
-    return 0
-}
-
 get_ssh() {
     local repo="$1"
-    jq -r --arg repo "$repo" '.[$repo].ssh // empty' <<< "$config"
+    local config="$2"
+    jq -r --arg repo "$repo" '.[$repo].ssh // empty' "$config"
 }
 
 get_http() {
     local repo="$1"
-    jq -r --arg repo "$repo" '.[$repo].http // empty' <<< "$config"
+    local config="$2"
+    jq -r --arg repo "$repo" '.[$repo].http // empty' "$config"
 }
 
 get_target() {
     local repo="$1"
-    jq -r --arg repo "$repo" '.[$repo].target // empty' <<< "$config"
+    local config="$2"
+    jq -r --arg repo "$repo" '.[$repo].target // empty' "$config"
 }

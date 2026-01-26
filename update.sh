@@ -27,10 +27,10 @@ source "${dcwd}/util.sh"
 
 # Global Variables
 dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
-config=$(cat "${dcwd}/config.json")
+config="${dcwd}/config.json"
 update_all=false
 update_occ=false
-mapfile -t keys < <(echo "$config" | jq -r 'keys[]')
+mapfile -t keys < <(jq -r 'keys[]' "$config")
 
 
 # Helper function
@@ -47,9 +47,10 @@ _help() {
 }
 
 _list() {
+    local target
     printf "Available Configs:\n  "
-    for key in ${keys[@]}; do
-        local target="$(get_target "$key")" 
+    for key in "${keys[@]}"; do
+        target="$(get_target "$key" "$config")" 
         if [[ -d "${dir}/${target}" ]]; then
             printf "%s " "${key}"
         fi
@@ -59,22 +60,28 @@ _list() {
 
 _update() {
     local rc
+    local cb
+    local db
     local err
+    local cwd
+    local after
+    local target
+    local before
     local repo="$1"
-    local target="$(get_target "${repo}" 2>/dev/null)"
+    target="$(get_target "${repo}" "$config" 2>/dev/null)"
     if [[ -z "${target}" ]]; then
         echo "[ERRO] ${repo} does not exist"
         return 1
     fi
 
     echo "[INFO] Fetching ${repo} from remote..."
-    local cwd="$(pwd)"
-    command cd "$target"
-    local cb="$(git branch --show-current)"
-    local db="$(_default_branch)"
-    local before=$(git rev-parse "origin/${db}")
+    cwd="$(pwd)"
+    command cd "$target" || return 1
+    cb="$(git branch --show-current)"
+    db="$(_default_branch)"
+    before=$(git rev-parse "origin/${db}")
     git fetch origin --quiet
-    local after=$(git rev-parse "origin/${db}")
+    after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
         if [[ \
@@ -94,7 +101,7 @@ _update() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            command cd "$cwd"
+            command cd "$cwd" || return 1
             return 1
         fi
     done
@@ -103,21 +110,26 @@ _update() {
         echo "[INFO] Executing update.sh for ${repo}"
         ./update.sh
     fi
-    command cd "$cwd"
+    command cd "$cwd" || return 1
 }
 
 _update_occ() {
     local rc
+    local cb
+    local db
     local err
+    local cwd
+    local after
+    local before
 
     echo "[INFO] Fetching occ from remote"
-    local cwd="$(pwd)"
-    command cd "${dcwd}"
-    local cb="$(git branch --show-current)"
-    local db="$(_default_branch)"
-    local before=$(git rev-parse "origin/${db}")
+    cwd="$(pwd)"
+    command cd "${dcwd}" || return 1
+    cb="$(git branch --show-current)"
+    db="$(_default_branch)"
+    before=$(git rev-parse "origin/${db}")
     git fetch origin --quiet
-    local after=$(git rev-parse "origin/${db}")
+    after=$(git rev-parse "origin/${db}")
     [[ "$before" != "$after" ]] && git diff "$before" "$after"
     for branch in $(git branch --format="%(refname:short)"); do
         if [[ \
@@ -137,19 +149,20 @@ _update_occ() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            command cd "$cwd"
+            command cd "$cwd" || return 1
             exit 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
-    command cd "$cwd"
+    command cd "$cwd" || return 1
 }
 
 _update_all() {
+    local target
     [[ -d "${dir}" ]] || mkdir -p "${dir}"
-    command cd "${dir}"
-    for key in ${keys[@]}; do
-        local target="$(get_target ${key})"
+    command cd "${dir}" || return 1
+    for key in "${keys[@]}"; do
+        target="$(get_target "${key}" "$config")"
         [[ -d "$target" ]] || continue
         _update "$key"
     done
@@ -170,12 +183,10 @@ while [[ "$#" -gt 0 ]]; do
         -h|--help|help)
             _help
             exit 0
-            shift
             ;;
         -l|--list|ls|list)
             _list
             exit 0
-            shift
             ;;
         -d|--dir)
             dir="$2"
@@ -191,7 +202,7 @@ while [[ "$#" -gt 0 ]]; do
             update_occ=true
             shift
             ;;
-        -*|--*)
+        -*)
             echo "[ERRO] Unknown option $1"
             _help
             exit 1
@@ -208,7 +219,7 @@ done
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}"
+command cd "${dir}" || exit 1
 
 # update all
 if ${update_all}; then
@@ -217,6 +228,6 @@ if ${update_all}; then
 fi
 
 # update selected
-for key in ${repos[@]}; do
+for key in "${repos[@]}"; do
     _update "$key"
 done

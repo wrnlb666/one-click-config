@@ -27,11 +27,11 @@ source "${dcwd}/util.sh"
 
 # Global Variables
 dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
-config=$(cat "${dcwd}/config.json")
+config="${dcwd}/config.json"
 install_all=false
 install_occ=false
 use_http=false
-mapfile -t keys < <(echo "$config" | jq -r 'keys[]')
+mapfile -t keys < <(jq -r 'keys[]' "$config")
 
 # Helper function
 _help() {
@@ -49,7 +49,7 @@ _help() {
 
 _list() {
     printf "Available Configs:\n  "
-    for key in ${keys[@]}; do
+    for key in "${keys[@]}"; do
         printf "%s " "${key}"
     done
     echo
@@ -58,8 +58,9 @@ _list() {
 _install() {
     local rc
     local err
+    local target
     local repo="$1"
-    local target="$(get_target "${repo}" 2>/dev/null)"
+    target="$(get_target "${repo}" "$config" 2>/dev/null)"
     if [[ -z "${target}" ]]; then
         echo "[ERRO] ${repo} does not exist"
         return 1
@@ -67,9 +68,9 @@ _install() {
 
     local url=""
     if "$use_http"; then
-        url="$(get_http "${repo}")"
+        url="$(get_http "${repo}" "$config")"
     else
-        url="$(get_ssh "${repo}")"
+        url="$(get_ssh "${repo}" "$config")"
     fi
 
     echo "[INFO] Cloning ${repo}..."
@@ -95,8 +96,8 @@ _install_occ() {
 
 _install_all() {
     [[ -d "${dir}" ]] || mkdir -p "${dir}"
-    command cd "${dir}"
-    for key in ${keys[@]}; do
+    command cd "${dir}" || return 1
+    for key in "${keys[@]}"; do
         _install "$key"
     done
 }
@@ -116,12 +117,10 @@ while [[ "$#" -gt 0 ]]; do
         -h|--help|help)
             _help
             exit 0
-            shift
             ;;
         -l|--list|ls|list)
             _list
             exit 0
-            shift
             ;;
         -d|--dir)
             dir="$2"
@@ -141,7 +140,7 @@ while [[ "$#" -gt 0 ]]; do
             install_occ=true
             shift
             ;;
-        -*|--*)
+        -*)
             echo "[ERRO] Unknown option $1"
             _help
             exit 1
@@ -158,13 +157,13 @@ done
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}"
+command cd "${dir}" || return 1
 
 if ${install_all}; then
     _install_all
     exit 0
 fi
 
-for key in ${repos[@]}; do
+for key in "${repos[@]}"; do
     _install "$key"
 done
