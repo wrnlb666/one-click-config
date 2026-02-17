@@ -22,12 +22,12 @@ swd() {
     echo "$SCRIPT_DIR"
 }
 
-dcwd="$(swd)"
-source "${dcwd}/util.sh"
+cwd="$(swd)"    # config working directory
+source "${cwd}/util.sh"
 
 # Global Variables
-dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
-config="${dcwd}/config.json"
+dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
+config="${cwd}/config.json"
 update_all=false
 update_occ=false
 mapfile -t keys < <(jq -r 'keys[]' "$config")
@@ -63,7 +63,6 @@ _update() {
     local cb
     local db
     local err
-    local cwd
     local after
     local target
     local before
@@ -101,7 +100,7 @@ _update() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            builtin cd "$cwd" || return 1
+            builtin cd "$dir" || return 1
             return 1
         fi
     done
@@ -110,7 +109,7 @@ _update() {
         echo "[INFO] Executing update.sh for ${repo}"
         ./update.sh
     fi
-    builtin cd "$cwd" || return 1
+    builtin cd "$dir" || return 1
 }
 
 _update_occ() {
@@ -118,13 +117,11 @@ _update_occ() {
     local cb
     local db
     local err
-    local cwd
     local after
     local before
 
     echo "[INFO] Fetching occ from remote"
-    cwd="$(pwd)"
-    builtin cd "${dcwd}" || return 1
+    builtin cd "${cwd}" || return 1
     cb="$(git branch --show-current)"
     db="$(_default_branch)"
     before=$(git rev-parse "origin/${db}")
@@ -149,12 +146,12 @@ _update_occ() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            builtin cd "$cwd" || return 1
+            builtin cd "$dir" || return 1
             exit 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
-    builtin cd "$cwd" || return 1
+    builtin cd "$dir" || return 1
 }
 
 _update_all() {

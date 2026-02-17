@@ -22,8 +22,8 @@ swd() {
     echo "$SCRIPT_DIR"
 }
 
-dcwd="$(swd)"
-source "${dcwd}/util.sh"
+cwd="$(swd)"    # config working directory
+source "${cwd}/util.sh"
 
 # helper function
 _help() {
@@ -49,12 +49,12 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         install)
             shift
-            "${dcwd}/install.sh" "$@"
+            "${cwd}/install.sh" "$@"
             exit 0
             ;;
         update)
             shift
-            "${dcwd}/update.sh" "$@"
+            "${cwd}/update.sh" "$@"
             exit 0
             ;;
         *|-*|--*)

@@ -22,12 +22,12 @@ swd() {
     echo "$SCRIPT_DIR"
 }
 
-dcwd="$(swd)"
-source "${dcwd}/util.sh"
+cwd="$(swd)"    # config working directory
+source "${cwd}/util.sh"
 
 # Global Variables
-dir="$(cd -P "${dcwd}/.." >/dev/null 2>&1 && pwd)"
-config="${dcwd}/config.json"
+dir="$(cd -P "${cwd}/.." >/dev/null 2>&1 && pwd)"
+config="${cwd}/config.json"
 install_all=false
 install_occ=false
 use_http=false
@@ -91,7 +91,7 @@ _install() {
 _install_occ() {
     echo "[INFO] Installing occ"
     [[ -d ~/.local/bin ]] || mkdir ~/.local/bin
-    ln -sf "${dcwd}/occ" ~/.local/bin/occ
+    ln -sf "${cwd}/occ" ~/.local/bin/occ
 }
 
 _install_all() {
