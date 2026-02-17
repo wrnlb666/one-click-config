@@ -85,7 +85,7 @@ _install() {
         exit 1
     fi
     echo "[INFO] Installing ${repo}..."
-    (command cd "$target" && ./install.sh)
+    (builtin cd "$target" && ./install.sh)
 }
 
 _install_occ() {
@@ -96,7 +96,7 @@ _install_occ() {
 
 _install_all() {
     [[ -d "${dir}" ]] || mkdir -p "${dir}"
-    command cd "${dir}" || return 1
+    builtin cd "${dir}" || return 1
     for key in "${keys[@]}"; do
         _install "$key"
     done
@@ -157,7 +157,7 @@ done
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}" || return 1
+builtin cd "${dir}" || return 1
 
 if ${install_all}; then
     _install_all

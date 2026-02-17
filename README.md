@@ -1,27 +1,26 @@
-# one-click-config
+# occ
 My config installation script with one click
 
 ## Caution
 All the config files are intended for my personal use. Backup your old config files so that there is a return.
-
 
 ## Installation
 ```sh
 # target can be any directory with `rwx` permission
 target=~/wrnlb/config
 [[ -d "${target}" ]] || mkdir -p "${target}"
-command cd "${target}"
-git clone git@github.com:wrnlb666/one-click-config.git occ
-command cd occ
+git clone git@github.com:wrnlb666/occ.git "${target}/occ"
+builtin cd "${target}/occ"
 ./occ install occ
+builtin cd -
 ```
 ## Install with https
 ```sh
 # target can be any directory with `rwx` permission
 target=~/wrnlb/config
 [[ -d "${target}" ]] || mkdir -p "${target}"
-command cd "${target}"
-git clone https://github.com/wrnlb666/one-click-config.git occ
-command cd occ
+git clone https://github.com/wrnlb666/occ.git "${target}/occ"
+builtin cd "${target}/occ"
 ./occ install occ
+builtin cd -
 ```

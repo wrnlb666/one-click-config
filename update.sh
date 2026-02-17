@@ -76,7 +76,7 @@ _update() {
 
     echo "[INFO] Fetching ${repo} from remote..."
     cwd="$(pwd)"
-    command cd "$target" || return 1
+    builtin cd "$target" || return 1
     cb="$(git branch --show-current)"
     db="$(_default_branch)"
     before=$(git rev-parse "origin/${db}")
@@ -101,7 +101,7 @@ _update() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            command cd "$cwd" || return 1
+            builtin cd "$cwd" || return 1
             return 1
         fi
     done
@@ -110,7 +110,7 @@ _update() {
         echo "[INFO] Executing update.sh for ${repo}"
         ./update.sh
     fi
-    command cd "$cwd" || return 1
+    builtin cd "$cwd" || return 1
 }
 
 _update_occ() {
@@ -124,7 +124,7 @@ _update_occ() {
 
     echo "[INFO] Fetching occ from remote"
     cwd="$(pwd)"
-    command cd "${dcwd}" || return 1
+    builtin cd "${dcwd}" || return 1
     cb="$(git branch --show-current)"
     db="$(_default_branch)"
     before=$(git rev-parse "origin/${db}")
@@ -149,18 +149,18 @@ _update_occ() {
                 echo "  $line"
             done
             git rebase --abort >/dev/null
-            command cd "$cwd" || return 1
+            builtin cd "$cwd" || return 1
             exit 1
         fi
     done
     git checkout "$cb" > /dev/null 2> /dev/null
-    command cd "$cwd" || return 1
+    builtin cd "$cwd" || return 1
 }
 
 _update_all() {
     local target
     [[ -d "${dir}" ]] || mkdir -p "${dir}"
-    command cd "${dir}" || return 1
+    builtin cd "${dir}" || return 1
     for key in "${keys[@]}"; do
         target="$(get_target "${key}" "$config")"
         [[ -d "$target" ]] || continue
@@ -219,7 +219,7 @@ done
 
 # cd into target directory
 [[ -d "${dir}" ]] || mkdir -p "${dir}"
-command cd "${dir}" || exit 1
+builtin cd "${dir}" || exit 1
 
 # update all
 if ${update_all}; then
